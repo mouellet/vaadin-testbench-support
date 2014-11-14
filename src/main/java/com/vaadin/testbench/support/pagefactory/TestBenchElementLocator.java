@@ -99,7 +99,6 @@ public class TestBenchElementLocator implements ElementLocator {
             }
         }
 
-        System.err.println(elementQuery.generateQuery());
         return elementQuery;
     }
 
