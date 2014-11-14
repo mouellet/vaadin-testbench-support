@@ -5,20 +5,18 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.FindBys;
-import org.openqa.selenium.support.pagefactory.DefaultElementLocatorFactory;
 import org.openqa.selenium.support.pagefactory.ElementLocatorFactory;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
 
 import com.vaadin.testbench.commands.TestBenchCommandExecutor;
 import com.vaadin.testbench.support.pagefactory.TestBenchElementDecorator;
+import com.vaadin.testbench.support.pagefactory.TestBenchElementLocatorFactory;
 
 public class TestBenchPageFactory {
 
     /**
-     *  See {@link org.openqa.selenium.support.PageFactory#initElements(org.openqa.selenium.WebDriver, Class<T>)}
+     * See
+     * {@link org.openqa.selenium.support.PageFactory#initElements(org.openqa.selenium.WebDriver, Class<T>)}
      */
     public static <T> T initElements(WebDriver driver, Class<T> pageClassToProxy) {
         T page = instantiatePage(driver, pageClassToProxy);
@@ -27,26 +25,32 @@ public class TestBenchPageFactory {
     }
 
     /**
-     *  See {@link org.openqa.selenium.support.PageFactory#initElements(org.openqa.selenium.WebDriver, Object)}
+     * See
+     * {@link org.openqa.selenium.support.PageFactory#initElements(org.openqa.selenium.WebDriver, Object)}
      */
     public static void initElements(WebDriver driver, Object page) {
         final WebDriver driverRef = driver;
-        final ElementLocatorFactory factoryRef = new DefaultElementLocatorFactory(driverRef);
+        final ElementLocatorFactory factoryRef = new TestBenchElementLocatorFactory(
+                driverRef);
         initElements(driverRef, factoryRef, page);
     }
 
     /**
-     * See {@link org.openqa.selenium.support.PageFactory#initElements(org.openqa.selenium.support.pagefactory.ElementLocatorFactory, Object)}
+     * See
+     * {@link org.openqa.selenium.support.PageFactory#initElements(org.openqa.selenium.support.pagefactory.ElementLocatorFactory, Object)}
      */
-    public static void initElements(WebDriver driver, ElementLocatorFactory factory, Object page) {
+    public static void initElements(WebDriver driver,
+            ElementLocatorFactory factory, Object page) {
         final WebDriver driverRef = driver;
         final ElementLocatorFactory factoryRef = factory;
-        final FieldDecorator decoratorRef = new TestBenchElementDecorator(factoryRef, (TestBenchCommandExecutor) driverRef);
+        final FieldDecorator decoratorRef = new TestBenchElementDecorator(
+                factoryRef, (TestBenchCommandExecutor) driverRef);
         initElements(decoratorRef, page);
     }
 
     /**
-     * See {@link org.openqa.selenium.support.PageFactory#initElements(org.openqa.selenium.support.pagefactory.FieldDecorator, Object)}
+     * See
+     * {@link org.openqa.selenium.support.PageFactory#initElements(org.openqa.selenium.support.pagefactory.FieldDecorator, Object)}
      */
     public static void initElements(FieldDecorator decorator, Object page) {
         Class<?> proxyIn = page.getClass();
@@ -56,31 +60,30 @@ public class TestBenchPageFactory {
         }
     }
 
-    private static void proxyFields(FieldDecorator decorator, Object page, Class<?> proxyIn) {
+    private static void proxyFields(FieldDecorator decorator, Object page,
+            Class<?> proxyIn) {
         Field[] fields = proxyIn.getDeclaredFields();
         for (Field field : fields) {
-            if (field.getAnnotation(FindBy.class) != null
-                    || field.getAnnotation(FindBys.class) != null
-                    || field.getAnnotation(FindAll.class) != null) {
+            Object value = decorator.decorate(page.getClass().getClassLoader(),
+                    field);
+            if (value != null) {
+                try {
+                    field.setAccessible(true);
+                    field.set(page, value);
 
-                Object value = decorator.decorate(page.getClass().getClassLoader(), field);
-                if (value != null) {
-                    try {
-                        field.setAccessible(true);
-                        field.set(page, value);
-
-                    } catch (IllegalAccessException e) {
-                        throw new RuntimeException(e);
-                    }
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException(e);
                 }
             }
         }
     }
 
-    private static <T> T instantiatePage(WebDriver driver, Class<T> pageClassToProxy) {
+    private static <T> T instantiatePage(WebDriver driver,
+            Class<T> pageClassToProxy) {
         try {
             try {
-                Constructor<T> constructor = pageClassToProxy.getConstructor(WebDriver.class);
+                Constructor<T> constructor = pageClassToProxy
+                        .getConstructor(WebDriver.class);
                 return constructor.newInstance(driver);
             } catch (NoSuchMethodException e) {
                 return pageClassToProxy.newInstance();

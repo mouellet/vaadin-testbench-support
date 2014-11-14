@@ -16,12 +16,14 @@ import org.openqa.selenium.support.pagefactory.ElementLocatorFactory;
 import com.vaadin.testbench.TestBench;
 import com.vaadin.testbench.TestBenchElement;
 import com.vaadin.testbench.commands.TestBenchCommandExecutor;
+import com.vaadin.testbench.support.FindByVaadin;
 
 public class TestBenchElementDecorator extends DefaultFieldDecorator {
 
     private TestBenchCommandExecutor tbCommandExecutor;
 
-    public TestBenchElementDecorator(ElementLocatorFactory factory, TestBenchCommandExecutor tbCommandExecutor) {
+    public TestBenchElementDecorator(ElementLocatorFactory factory,
+            TestBenchCommandExecutor tbCommandExecutor) {
         super(factory);
         this.tbCommandExecutor = tbCommandExecutor;
     }
@@ -39,7 +41,9 @@ public class TestBenchElementDecorator extends DefaultFieldDecorator {
         }
 
         if (TestBenchElement.class.isAssignableFrom(field.getType())) {
-            return TestBench.createElement((Class<? extends TestBenchElement>) field.getType(), proxyForLocator(loader, locator), tbCommandExecutor);
+            return TestBench.createElement(
+                    (Class<? extends TestBenchElement>) field.getType(),
+                    proxyForLocator(loader, locator), tbCommandExecutor);
 
         } else if (WebElement.class.isAssignableFrom(field.getType())) {
             return proxyForLocator(loader, locator);
@@ -64,15 +68,17 @@ public class TestBenchElementDecorator extends DefaultFieldDecorator {
             return false;
         }
 
-        Type listType = ((ParameterizedType) genericType).getActualTypeArguments()[0];
+        Type listType = ((ParameterizedType) genericType)
+                .getActualTypeArguments()[0];
 
         if (!WebElement.class.equals(listType)) {
             return false;
         }
 
-        if (field.getAnnotation(FindBy.class) == null &&
-                field.getAnnotation(FindBys.class) == null &&
-                field.getAnnotation(FindAll.class) == null) {
+        if (field.getAnnotation(FindBy.class) == null
+                && field.getAnnotation(FindBys.class) == null
+                && field.getAnnotation(FindAll.class) == null
+                && field.getAnnotation(FindByVaadin.class) == null) {
             return false;
         }
 
