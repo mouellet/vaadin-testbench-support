@@ -71,7 +71,9 @@ public class TestBenchElementDecorator extends DefaultFieldDecorator {
         Type listType = ((ParameterizedType) genericType)
                 .getActualTypeArguments()[0];
 
-        if (!WebElement.class.equals(listType)) {
+        if (!WebElement.class.equals(listType)
+                && !TestBenchElement.class
+                        .isAssignableFrom((Class<?>) listType)) {
             return false;
         }
 
