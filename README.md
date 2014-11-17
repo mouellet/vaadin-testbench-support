@@ -24,18 +24,16 @@ Using Selenium's `@FindBy` annotation :
 @FindBy(className = "v-table")
 private TableElement table;
 ```
-
 Using `@FindByVaadin` annotation :
 ```
 @FindByVaadin
 private TableElement table;
 ```
-or
+Using `@FindByVaadin` annotation with Vaadin Selector String :
 ```
 @FindByVaadin(vaadinSelector = "//com.vaadin.ui.VerticalLayoutElement/com.vaadin.ui.Table")
 private TableElement table;
 ```
-
 Using `@FindByVaadin` annotation to build an `ElementQuery` :
 ```
 @FindByVaadin(index = 2, caption = "Password")
