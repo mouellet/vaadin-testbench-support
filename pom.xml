@@ -4,6 +4,7 @@
 
     <groupId>com.vaadin</groupId>
     <artifactId>vaadin-testbench-support</artifactId>
+    <name>testbench-support</name>
     <version>4.0.0.alpha</version>
 
     <properties>
@@ -97,6 +98,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.3.1</version>
                 <configuration>
+                    <finalName>${project.name}-${project.version}</finalName>
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
