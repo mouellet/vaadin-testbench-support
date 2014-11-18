@@ -1,25 +1,50 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.vaadin</groupId>
-	<artifactId>vaadin-testbench-support</artifactId>
-	<version>4.0.0.alpha</version>
+    <groupId>com.vaadin</groupId>
+    <artifactId>vaadin-testbench-support</artifactId>
+    <version>4.0.0.alpha</version>
 
-	<properties>
-		<selenium.version>2.43.1</selenium.version>
-		<vaadin.testbench.core.version>4.0.0</vaadin.testbench.core.version>
-		<vaadin.testbench.api.version>7.3.0</vaadin.testbench.api.version>
-	</properties>
+    <properties>
+        <selenium.version>2.43.1</selenium.version>
+        <vaadin.testbench.core.version>4.0.0</vaadin.testbench.core.version>
+        <vaadin.testbench.api.version>7.3.0</vaadin.testbench.api.version>
+    </properties>
 
-	<build>
+    <organization>
+        <name>Mathieu Ouellet</name>
+        <url>https://github.com/mouellet/vaadin-testbench-support</url>
+    </organization>
+
+    <scm>
+        <url>git://github.com/mouellet/vaadin-testbench-support.git</url>
+        <connection>scm:git:git://github.com/mouellet/vaadin-testbench-support.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:/mouellet/vaadin-testbench-support.git</developerConnection>
+        <tag>Support library that enables the use of Selenium's PageFactory and Page Objects Pattern with Vaadin TestBench 4</tag>
+    </scm>
+
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/mouellet/vaadin-testbench-support/issues</url>
+    </issueManagement>
+
+    <licenses>
+        <license>
+            <name>Apache 2</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <build>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
             </resource>
         </resources>
-		<plugins>
+        <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -29,25 +54,25 @@
                     <target>1.6</target>
                 </configuration>
             </plugin>
-		</plugins>
-	</build>
+        </plugins>
+    </build>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-support</artifactId>
-			<version>${selenium.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-testbench-core</artifactId>
-			<version>${vaadin.testbench.core.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-testbench-api</artifactId>
-			<version>${vaadin.testbench.api.version}</version>
-		</dependency>
-	</dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-support</artifactId>
+            <version>${selenium.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-testbench-core</artifactId>
+            <version>${vaadin.testbench.core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-testbench-api</artifactId>
+            <version>${vaadin.testbench.api.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>
