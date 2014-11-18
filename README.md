@@ -17,7 +17,7 @@ Please refer to the [Page Objects Pattern] (https://code.google.com/p/selenium/w
 
 The library also offers a new `@FindByVaadin` annotation to look up for elements using a Vaadin selector string or attributs to construct an `ElementQuery` base on the field type. This feature in still in development and result could differ from using `ElementQuery` as the `SearchContext` will always be the driver.
 
-## Simple Example
+## Simple Examples
 
 Using Selenium's `@FindBy` annotation :
 ```
@@ -39,3 +39,7 @@ Using `@FindByVaadin` annotation to build an `ElementQuery` :
 @FindByVaadin(index = 2, caption = "Password")
 private TextFieldElement field;
 ```
+
+## Demo
+
+Basic implementation of the Page Object pattern on a [forked Valo Theme Demo] (https://github.com/mouellet/valo-demo) and use of `TestBenchPageFactory`.
